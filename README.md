@@ -55,27 +55,52 @@ For larger files containing long, verbose function/method bodies, Ousia often re
    pip install -r requirements.txt
    ```
 
-## Running the Server
+## Integrating with Claude Desktop App
 
-You can start the MCP server directly using Python:
-```bash
-python ousia_server.py
-```
+Since most users interact with Claude via the desktop GUI application rather than a command line, you need to register Ousia as an MCP server in Claude Desktop's configuration file.
 
-### Adding to Claude Desktop
+### 1. Locate your Claude Desktop Config File
+Open your file manager or terminal and find the **`claude_desktop_config.json`** file at the following path:
+- **Windows:** `%APPDATA%\Claude\claude_desktop_config.json` (e.g. `C:\Users\YourName\AppData\Roaming\Claude\claude_desktop_config.json`)
+- **macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
 
-To use Ousia with Claude Desktop, add the following to your `claude_desktop_config.json`:
+### 2. Configure Ousia
+Open the file in a text editor and add the following server config to the `mcpServers` object:
 
+#### Windows Configuration
 ```json
 {
   "mcpServers": {
     "ousia": {
-      "command": "python",
+      "command": "C:\\path\\to\\Ousia\\.venv\\Scripts\\python.exe",
       "args": [
-        "C:/path/to/Ousia/ousia_server.py"
+        "C:\\path\\to\\Ousia\\ousia_server.py"
       ]
     }
   }
 }
 ```
-*(Make sure to replace `C:/path/to/Ousia` with the absolute path to your repository).*
+
+#### macOS / Linux Configuration
+```json
+{
+  "mcpServers": {
+    "ousia": {
+      "command": "/path/to/Ousia/.venv/bin/python",
+      "args": [
+        "/path/to/Ousia/ousia_server.py"
+      ]
+    }
+  }
+}
+```
+
+> [!IMPORTANT]
+> **Why use the `.venv` path?** 
+> If you configure the command simply as `"python"`, Claude Desktop will call your system's global Python environment, which does not have the `fastmcp` dependency installed, causing Ousia to fail to start. Explicitly pointing the command to the `.venv` folder's Python executable ensures it runs with all required dependencies out-of-the-box.
+
+### 3. Restart Claude
+1. Fully close Claude Desktop (ensure it is quit from your system tray or menu bar).
+2. Open Claude Desktop.
+3. You will see a small **plug icon** 🔌 in the bottom-right of the chat box showing that Ousia is connected!
+
