@@ -102,5 +102,5 @@ Open the file in a text editor and add the following server config to the `mcpSe
 ### 3. Restart Claude
 1. Fully close Claude Desktop (ensure it is quit from your system tray or menu bar).
 2. Open Claude Desktop.
-3. You will see a small **plug icon** 🔌 in the bottom-right of the chat box showing that Ousia is connected!
+3. You will see a small plug icon in the bottom-right of the chat box showing that Ousia is connected!
 
